@@ -159,12 +159,14 @@ abstract class Queue
                     ? $this->container[Encrypter::class]->encrypt(serialize(clone $job))
                     : serialize(clone $job);
 
-        return array_merge($payload, [
-            'data' => array_merge($payload['data'], [
+        return [
+            ...$payload,
+            'data' => [
+                ...$payload['data'],
                 'commandName' => get_class($job),
                 'command' => $command,
-            ]),
-        ]);
+            ],
+        ];
     }
 
     /**
